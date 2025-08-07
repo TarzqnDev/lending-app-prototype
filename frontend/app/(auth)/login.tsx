@@ -3,7 +3,7 @@ import { Button, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
     return (
-        <View>
+        <View className="flex-1 bg-red-500">
 
             <View>
                 <Text>Login Screen</Text>
