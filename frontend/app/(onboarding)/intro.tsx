@@ -2,11 +2,11 @@ import { Text, View } from "react-native";
 
 export default function IntroScreen() {
     return (
-        <View>
+        <View className="flex-1 bg-primary justify-center items-center">
 
             <View>
-                <Text>
-                    Onboarding
+                <Text className="text-2xl text-white font-robotoRegular">
+                    Onboarding Majo
                 </Text>
             </View>
 

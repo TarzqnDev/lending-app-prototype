@@ -4,7 +4,20 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#2563EB',
+      },
+      
+      fontFamily: {
+        poppinsBold: ['Poppins-Bold'],
+        poppinsSemiBold: ['Poppins-SemiBold'],
+        poppinsMedium: ['Poppins-Medium'],
+        robotoMedium: ['Roboto-Medium'],
+        robotoRegular: ['Roboto-Regular'],
+        robotoLight: ['Roboto-Light'],
+      }
+    },
   },
   plugins: [],
 }
