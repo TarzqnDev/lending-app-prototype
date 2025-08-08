@@ -3,7 +3,7 @@ import { Button, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
     return (
-        <View className="flex-1 bg-red-500">
+        <View className="flex-1">
 
             <View>
                 <Text>Login Screen</Text>
@@ -19,9 +19,13 @@ export default function LoginScreen() {
                 <Button title="Login" onPress={() => {}}/>
             </View>
 
-            <View>
+            <View className="gap-10">
                 <Link href="/(auth)/register" asChild>
                     <Text>Go to Register</Text>
+                </Link>
+
+                <Link href="/(onboarding)/intro" asChild>
+                    <Text>Temp Back</Text>
                 </Link>
             </View>
             
