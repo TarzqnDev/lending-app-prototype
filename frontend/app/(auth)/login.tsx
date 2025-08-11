@@ -38,7 +38,7 @@ export default function LoginScreen() {
 
                     <ReusableInput 
                         placeholder="Password"
-                        secureTextEntry
+                        isPassword
                     />
                 </View>
 

@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AuthButton from "@/components/ui/authbutton";
@@ -43,6 +43,7 @@ export default function RegisterScreen() {
                 <ReusableButton 
                     title="Email Address" 
                     iconPosition="left"  
+                    onPress={() => router.push('/(auth)/email-registration')}
                     icon={<Ionicons name="mail" size={20} color="#FFFFFF" />}    
                 />
                 
