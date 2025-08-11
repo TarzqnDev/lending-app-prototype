@@ -15,9 +15,9 @@ export default function LoginScreen() {
 
             <LinearGradient
                 className="w-full h-[28%] flex justify-center items-center"
-                colors={['#2563EB', '#3B35E6']}
-                start={{ x: 0.5, y: 0 }}        
-                end={{ x: 0.5, y: 1 }} 
+                colors={['#2563EB', '#4B35E6']}
+                start={{ x: 0, y: 0 }}        
+                end={{ x: 1, y: 1 }} 
             >
                 
 

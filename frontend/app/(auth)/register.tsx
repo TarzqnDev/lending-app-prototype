@@ -7,6 +7,7 @@ import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
 import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
 import FormDivider from "@/components/ui/divider";
 import ReusableButton from "@/components/ui/button";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function RegisterScreen() {
     return (
@@ -14,9 +15,9 @@ export default function RegisterScreen() {
 
             <LinearGradient
                 className="w-full h-[28%] flex justify-center items-center"
-                colors={['#2563EB', '#3B35E6']}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 0.5, y: 1 }}
+                colors={['#2563EB', '#4B35E6']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
 
             </LinearGradient>
@@ -39,7 +40,11 @@ export default function RegisterScreen() {
                     <FormDivider text="Or sign up with"/>
                 </View>
 
-                <ReusableButton title="Email Address" />
+                <ReusableButton 
+                    title="Email Address" 
+                    iconPosition="left"  
+                    icon={<Ionicons name="mail" size={20} color="#FFFFFF" />}    
+                />
                 
                 <Text className="text-xl font-robotoRegular text-neutral self-center absolute bottom-16">Already have an account? {''}
                     <Link href="/(auth)/login" asChild>

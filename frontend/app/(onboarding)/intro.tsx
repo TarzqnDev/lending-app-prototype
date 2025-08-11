@@ -1,5 +1,5 @@
 import ReusableButton from "@/components/ui/button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,17 +9,17 @@ export default function IntroScreen() {
         <View className="flex-1">
 
             <LinearGradient 
-                className="w-full h-4/5 flex justify-center items-center"
-                colors={['#2563EB', '#3B35E6']}
-                start={{ x: 0.5, y: 0 }}        
-                end={{ x: 0.5, y: 1 }} 
+                className="w-full h-4/5 flex justify-center items-center gap-8"
+                colors={['#2563EB', '#4B35E6']}
+                start={{ x: 0, y: 0 }}        
+                end={{ x: 1, y: 1 }} 
                 >
 
                 {/* <View className="p-8 bg-accent rounded-full mb-8">
                     <Text>Logo</Text>
                 </View> */}
 
-                <Text className="text-5xl text-white font-poppinsBold mb-8">
+                <Text className="text-5xl text-white font-poppinsBold text-center">
                     LendScape
                 </Text>
 
@@ -33,7 +33,7 @@ export default function IntroScreen() {
 
                     <ReusableButton 
                     title="Get Started" 
-                    onPress={() => console.log('Pressed')} 
+                    onPress={() => router.push("/(onboarding)/welcome")} 
                     icon={<Ionicons name="arrow-forward" size={20} color="#BDBDBD" />}
                     />
 
