@@ -1,32 +1,82 @@
+import AuthButton from "@/components/ui/authbutton";
+import ReusableButton from "@/components/ui/button";
+import FormDivider from "@/components/ui/divider";
+import ReusableInput from "@/components/ui/input";
+import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
-import { Button, Text, TextInput, View } from "react-native";
+import { Text, View } from "react-native";
+
+import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
+import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
 
 export default function LoginScreen() {
     return (
         <View className="flex-1">
 
-            <View>
-                <Text>Login Screen</Text>
-            </View>
+            <LinearGradient
+                className="w-full h-[28%] flex justify-center items-center"
+                colors={['#2563EB', '#3B35E6']}
+                start={{ x: 0.5, y: 0 }}        
+                end={{ x: 0.5, y: 1 }} 
+            >
+                
 
-            <View>
-                <Text>Email Address</Text>
-                <TextInput placeholder="Email"/>
+            </LinearGradient>
 
-                <Text>Password</Text>
-                <TextInput placeholder="Password" secureTextEntry/>
+            <View className="w-full h-4/5 rounded-t-[28px] absolute bottom-0 bg-white px-8">
 
-                <Button title="Login" onPress={() => {}}/>
-            </View>
+                <View className="items-center py-14">
+                    <Text className="font-poppinsSemiBold text-4xl text-neutral">Welcome Back</Text>
+                    <Text className="font-robotoRegular text-2xl text-neutral opacity-70">Sign in to your account</Text>
+                </View>
 
-            <View className="gap-10">
-                <Link href="/(auth)/register" asChild>
-                    <Text>Go to Register</Text>
-                </Link>
+                <View className="gap-6 mb-2">
+                    <ReusableInput
+                        placeholder="Email Address"
+                        keyboardType="email-address"
+                    />
 
-                <Link href="/(onboarding)/intro" asChild>
-                    <Text>Temp Back</Text>
-                </Link>
+                    <ReusableInput 
+                        placeholder="Password"
+                        secureTextEntry
+                    />
+                </View>
+
+                <View className="gap-6">
+                    <Link href="/intro" asChild>
+                        <Text className="font-poppinsMedium text-lg text-neutral self-end">Forgot password?</Text>
+                    </Link>
+
+                    <ReusableButton 
+                        title="Sign in"
+                        onPress={() => console.log('Pressed')} 
+                    />
+                </View>
+
+                <View className="py-8">
+                    <FormDivider text="Or sign in with" />
+                </View>
+
+                <View className="flex-row gap-2">
+
+                    <View className="flex-1">
+                        <AuthButton Icon={GoogleSymbol} title="Google" />
+                    </View>
+
+                    <View className="flex-1">
+                        <AuthButton Icon={FacebookSymbol} title="Facebook" />
+                    </View>
+
+                </View>
+
+                <Text className="text-xl font-robotoRegular text-neutral self-center absolute bottom-16">Don&apos;t have an account? {''}
+                    <Link href="/(auth)/register" asChild>
+                        <Text>Sign up</Text>
+                    </Link>
+                </Text>
+
+                
+
             </View>
             
         </View>

@@ -9,7 +9,7 @@
 
     const ReusableButton = ({ title, icon, className = '', textClassName ='', ...props }: ReusableButtonProps) => {
         return (
-            <Pressable className={`w-full bg-black flex-row justify-center items-center p-4 rounded-lg ${className}`} {...props}>
+            <Pressable className={`w-full bg-neutral flex-row justify-center items-center p-4 rounded-lg ${className}`} {...props}>
                 <Text className={`text-white text-xl font-poppinsMedium ${textClassName}`}>
                     {title}    
                 </Text>
