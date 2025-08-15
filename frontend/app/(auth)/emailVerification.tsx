@@ -1,12 +1,71 @@
 import ReusableButton from "@/components/ui/button";
 import GradientBackground from "@/components/backgrounds/gradientBackground";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 import AuthFormBackground from "@/components/backgrounds/authFormBackground";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EmailVerificationScreen() {
+    const router = useRouter();
+    const [email, setEmail]= useState('');
+    const [code, setCode] = useState('');
+
+    useEffect(() => {
+        (async () => {
+            const storedEmail = await AsyncStorage.getItem('pendingEmail');
+            if (!storedEmail) {
+                Alert.alert('Error', 'No email found, Please register again');
+                router.push('/(auth)/register');
+            } else {
+                setEmail(storedEmail);
+            }
+        })();
+    }, [router]);
+
+    const handleEmailVerification = async () => {
+
+        if (!email) {
+            Alert.alert('Error', 'No email found. Please register again');
+            return;
+        }
+
+        if (code.length !== 6) {
+            Alert.alert('Invalid Code', 'Please enter 6-digits code');
+            return;
+        }
+
+        try {
+            console.log("Sending to backend:", { email, code });
+
+            const res = await axios.post('http://192.168.0.23:5000/api/auth/emailVerification', {
+                email, code
+            });
+
+            Alert.alert('Success', res.data.message);
+            await AsyncStorage.removeItem('pendingEmail');
+            router.push('/(auth)/userInformation');
+
+        } catch (error) {
+            const err = error as any;
+            console.error(err.response?.data || err.message);
+            Alert.alert('Error', err.response?.data?.message || 'Verification Failed');
+        }
+    };
+
+    // const handleCodeResend = async () => {
+    //     try {
+    //         await axios.post()
+    //     } catch (error) {
+    //         const err = error as any;
+    //         console.error(err.response?.data || err.message);
+    //         Alert.alert('Error', err.response?.data?.message || 'Failed to Resend Code');
+    //     }
+    // }
+
     return(
         <View className="flex-1">
 
@@ -28,13 +87,14 @@ export default function EmailVerificationScreen() {
                         numberOfDigits={6}
                         autoFocus={true}
                         focusColor="#2563EB"
+                        onTextChange={(val: string) => setCode(val)}
                     />
 
                 </View>
 
                 <ReusableButton 
                     title="Verify Email"
-                    onPress={() => router.push("/(auth)/userInformation")}
+                    onPress={handleEmailVerification}
                 />
 
                 <View className="mt-6 gap-6 items-center">

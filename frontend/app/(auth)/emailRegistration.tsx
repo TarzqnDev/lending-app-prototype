@@ -7,6 +7,7 @@ import { useState } from "react";
 import GradientBackground from "@/components/backgrounds/gradientBackground";
 import AuthFormBackground from "@/components/backgrounds/authFormBackground";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EmailRegistrationScreen() {
     const router = useRouter();
@@ -26,6 +27,8 @@ export default function EmailRegistrationScreen() {
             const res = await axios.post('http://192.168.0.23:5000/api/auth/register', {
                 email, password, confirmPassword
             });
+
+            await AsyncStorage.setItem('pendingEmail', email);
 
             console.log(res.data);
             Alert.alert('Success', 'Account created successfully');
