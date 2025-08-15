@@ -22,7 +22,6 @@ const ReusableInput = ({ inputClassName = '', isPassword = false, ...props }: Re
             {isPassword && (
                 <Pressable
                     onPress={() => setShowPassword(!showPassword)}
-                    className="m1-2"
                     accessibilityLabel={showPassword ? "Hide password" : "Show password"}
                 >
                     <Ionicons 

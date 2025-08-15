@@ -2,26 +2,22 @@ import AuthButton from "@/components/ui/authbutton";
 import ReusableButton from "@/components/ui/button";
 import FormDivider from "@/components/ui/divider";
 import ReusableInput from "@/components/ui/input";
-import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
 import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
+import GradientBackground from "@/components/ui/gradientBackground";
 
 export default function LoginScreen() {
     return (
         <View className="flex-1">
 
-            <LinearGradient
-                className="w-full h-[28%] flex justify-center items-center"
-                colors={['#2563EB', '#4B35E6']}
-                start={{ x: 0, y: 0 }}        
-                end={{ x: 1, y: 1 }} 
-            >
-                
+            <GradientBackground
+                style={{ width: "100%", height: "28%"}}
+            />
 
-            </LinearGradient>
+            {/* <View className="w-[90%] h-[82%] absolute bottom-0 bg-accent/20 rounded-t-[34px] self-center"></View> */}
 
             <View className="w-full h-4/5 rounded-t-[28px] absolute bottom-0 bg-white px-8">
 

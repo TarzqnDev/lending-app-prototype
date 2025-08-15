@@ -1,6 +1,5 @@
 import { Link, router } from "expo-router";
 import { Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import AuthButton from "@/components/ui/authbutton";
 
 import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
@@ -8,19 +7,15 @@ import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
 import FormDivider from "@/components/ui/divider";
 import ReusableButton from "@/components/ui/button";
 import { Ionicons } from "@expo/vector-icons";
+import GradientBackground from "@/components/ui/gradientBackground";
 
 export default function RegisterScreen() {
     return (
         <View className="flex-1">
 
-            <LinearGradient
-                className="w-full h-[28%] flex justify-center items-center"
-                colors={['#2563EB', '#4B35E6']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-            >
-
-            </LinearGradient>
+            <GradientBackground 
+                style={{ width: "100%", height: "28%"}}
+            />
 
             <View className="w-full h-4/5 rounded-t-[28px] absolute bottom-0 bg-white px-8">
 
