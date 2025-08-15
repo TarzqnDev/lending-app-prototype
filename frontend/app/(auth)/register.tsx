@@ -7,7 +7,8 @@ import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
 import FormDivider from "@/components/ui/divider";
 import ReusableButton from "@/components/ui/button";
 import { Ionicons } from "@expo/vector-icons";
-import GradientBackground from "@/components/ui/gradientBackground";
+import GradientBackground from "@/components/backgrounds/gradientBackground";
+import AuthFormBackground from "@/components/backgrounds/authFormBackground";
 
 export default function RegisterScreen() {
     return (
@@ -17,8 +18,8 @@ export default function RegisterScreen() {
                 style={{ width: "100%", height: "28%"}}
             />
 
-            <View className="w-full h-4/5 rounded-t-[28px] absolute bottom-0 bg-white px-8">
-
+            <AuthFormBackground>
+                
                 <View className="items-center py-14">
                     <Text className="font-poppinsSemiBold text-4xl text-neutral">Get Started</Text>
                     <Text className="font-robotoRegular text-2xl text-neutral opacity-70">Select a sign up option</Text>
@@ -38,7 +39,7 @@ export default function RegisterScreen() {
                 <ReusableButton 
                     title="Email Address" 
                     iconPosition="left"  
-                    onPress={() => router.push('/(auth)/email-registration')}
+                    onPress={() => router.push('/(auth)/emailRegistration')}
                     icon={<Ionicons name="mail" size={20} color="#FFFFFF" />}    
                 />
                 
@@ -47,8 +48,8 @@ export default function RegisterScreen() {
                         <Text>Sign in</Text>
                     </Link>
                 </Text>
-
-            </View>
+                
+            </AuthFormBackground>
 
             
         </View>

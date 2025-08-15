@@ -1,8 +1,9 @@
 import ReusableButton from "@/components/ui/button";
-import GradientBackground from "@/components/ui/gradientBackground";
+import GradientBackground from "@/components/backgrounds/gradientBackground";
 import ReusableInput from "@/components/ui/input";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
+import AuthFormBackground from "@/components/backgrounds/authFormBackground";
 
 export default function RegisterProcessScreen() {
     return(
@@ -12,11 +13,11 @@ export default function RegisterProcessScreen() {
                 style={{ width:"100%", height:"28%"}}
             />
 
-            <View className="w-full h-[80%] rounded-t-[28px] absolute bottom-0 bg-white px-8">
-                
+            <AuthFormBackground>
+
                 <View className="items-center py-14">
                     <Text className="font-poppinsSemiBold text-4xl text-neutral">Quick Profile Setup</Text>
-                    <Text className="font-robotoRegular text-2xl text-neutral opacity-70">Text</Text>
+                    <Text className="font-robotoRegular text-2xl text-neutral opacity-70">Enter your personal details</Text>
                 </View>
 
                 <View className="gap-6 mb-2">
@@ -79,12 +80,12 @@ export default function RegisterProcessScreen() {
 
                     <ReusableButton 
                         title="Continue"
-                        onPress={() => router.push("/(auth)/email-registration")}
+                        onPress={() => router.push("/(tabs)/dashboard")}
                     />
 
                 </View>
-                
-            </View> 
+
+            </AuthFormBackground>
 
         </View>
     );

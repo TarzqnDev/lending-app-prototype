@@ -2,14 +2,40 @@ import AuthButton from "@/components/ui/authbutton";
 import ReusableButton from "@/components/ui/button";
 import FormDivider from "@/components/ui/divider";
 import ReusableInput from "@/components/ui/input";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { Alert, Text, View } from "react-native";
 
 import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
 import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
-import GradientBackground from "@/components/ui/gradientBackground";
+import GradientBackground from "@/components/backgrounds/gradientBackground";
+import AuthFormBackground from "@/components/backgrounds/authFormBackground";
+import axios from "axios";
+import { useState } from "react";
+
 
 export default function LoginScreen() {
+
+    const router = useRouter();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async () => {
+      try {
+         const res = await axios.post('http://192.168.0.23:5000/api/auth/login', {
+            email, password
+        });
+
+        console.log(res.data);
+        Alert.alert('Success', 'Logged in successfully');
+        router.push('/(tabs)/dashboard');
+
+      } catch (error) {
+        const err = error as any;
+        console.error(err.response?.data || err.message);
+        Alert.alert('Error', err.response?.data?.message || 'Something went wrong');
+      }
+    };
+
     return (
         <View className="flex-1">
 
@@ -17,9 +43,7 @@ export default function LoginScreen() {
                 style={{ width: "100%", height: "28%"}}
             />
 
-            {/* <View className="w-[90%] h-[82%] absolute bottom-0 bg-accent/20 rounded-t-[34px] self-center"></View> */}
-
-            <View className="w-full h-4/5 rounded-t-[28px] absolute bottom-0 bg-white px-8">
+            <AuthFormBackground>
 
                 <View className="items-center py-14">
                     <Text className="font-poppinsSemiBold text-4xl text-neutral">Welcome Back</Text>
@@ -30,11 +54,15 @@ export default function LoginScreen() {
                     <ReusableInput
                         placeholder="Email Address"
                         keyboardType="email-address"
+                        value={email}
+                        onChangeText={setEmail}
                     />
 
                     <ReusableInput 
                         placeholder="Password"
                         isPassword
+                        value={password}
+                        onChangeText={setPassword}
                     />
                 </View>
 
@@ -45,7 +73,7 @@ export default function LoginScreen() {
 
                     <ReusableButton 
                         title="Sign in"
-                        onPress={() => console.log('Pressed')} 
+                        onPress={handleLogin} 
                     />
                 </View>
 
@@ -70,10 +98,8 @@ export default function LoginScreen() {
                         <Text>Sign up</Text>
                     </Link>
                 </Text>
-
                 
-
-            </View>
+            </AuthFormBackground>
             
         </View>
     );

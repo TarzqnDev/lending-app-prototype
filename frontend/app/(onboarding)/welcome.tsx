@@ -9,8 +9,8 @@ export default function WelcomeScreen() {
 
     const slides = [
         {
-            header: "Protected by Escrow",
-            subHeader: "Your money stays safe until both you and the other person agree the deal is done.",
+            header: "Secure Transactions",
+            subHeader: "A safe, digital environment for honest and well-minded lenders and borrowers",
             colors: ['#2563EB', '#3B35E6', '#1E293B'],
             start: { x: 0, y: 0 },
             end: { x: 1, y: 1 },
@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
         },
         {
             header: "Borrow with Ease",
-            subHeader: "Get the money you need quickly with simple and clear terms.",
+            subHeader: "Get your money at fair interests quickly with simple and clear terms.",
             colors: ['#2563EB', '#59C2C3', '#7C5DF5'],
             start: { x: 0, y: 0 },
             end: { x: 1, y: 1 },

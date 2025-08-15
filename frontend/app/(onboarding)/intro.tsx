@@ -2,7 +2,7 @@ import ReusableButton from "@/components/ui/button";
 import { Link, router } from "expo-router";
 import { Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons'
-import GradientBackground from "@/components/ui/gradientBackground";
+import GradientBackground from "@/components/backgrounds/gradientBackground";
 
 export default function IntroScreen() {
     return (
