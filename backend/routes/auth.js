@@ -152,4 +152,30 @@ router.post('/emailVerification', async (req, res) => {
 
 });
 
+router.post('/emailResendCode', async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ message: 'Email is not found' });
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) return res.status(400).json({ message: 'User not found' });
+        if (user.isVerified) return res.status(400).json({ message: 'Email is already verified' });
+
+        const newCode = generateEmailVerification();
+        const expires = new Date(Date.now() + 5 * 60 * 1000);
+        user.verificationCode = newCode;
+        user.verificationCodeExpires = expires;
+        await user.save();
+
+        await sendEmailVerification(email, newCode);
+        res.status(200).json({ message: 'Verification code resent successfully' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;

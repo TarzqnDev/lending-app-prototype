@@ -14,6 +14,8 @@ export default function EmailVerificationScreen() {
     const [email, setEmail]= useState('');
     const [code, setCode] = useState('');
 
+    const [cooldown, setCooldown] = useState(0);
+
     useEffect(() => {
         (async () => {
             const storedEmail = await AsyncStorage.getItem('pendingEmail');
@@ -25,6 +27,16 @@ export default function EmailVerificationScreen() {
             }
         })();
     }, [router]);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+
+        if (cooldown > 0) {
+            timer = setInterval(() => setCooldown((prev) => prev - 1), 1000);
+        }
+
+        return () => clearInterval(timer);
+    }, [cooldown]);
 
     const handleEmailVerification = async () => {
 
@@ -56,15 +68,31 @@ export default function EmailVerificationScreen() {
         }
     };
 
-    // const handleCodeResend = async () => {
-    //     try {
-    //         await axios.post()
-    //     } catch (error) {
-    //         const err = error as any;
-    //         console.error(err.response?.data || err.message);
-    //         Alert.alert('Error', err.response?.data?.message || 'Failed to Resend Code');
-    //     }
-    // }
+    const handleCodeResend = async () => {
+        if (!email) {
+            Alert.alert('Error', 'No email found, please register again');
+            return;
+        }
+
+        try {
+            const res = await axios.post('http://192.168.0.23:5000/api/auth/emailResendCode', {
+                email
+            });
+
+            Alert.alert('Success', res.data.message);
+            setCooldown(180);
+        } catch (error) {
+            const err = error as any;
+            console.error(err.response?.data || err.message);
+            Alert.alert('Error', err.response?.data?.message || 'Failed to resend code');
+        }
+    }
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+    };
 
     return(
         <View className="flex-1">
@@ -99,7 +127,13 @@ export default function EmailVerificationScreen() {
 
                 <View className="mt-6 gap-6 items-center">
                     <Text className="font-robotoRegular text-lg color-neutral">Didn&apos;t receive the code?</Text>
-                    <Text className="font-poppinsMedium text-lg color-neutral">Resend Code</Text>
+
+                    { cooldown > 0 ? (
+                        <Text className="font-poppinsMedium text-lg color-neutral">Resend Available: <Text className="font-robotoRegular text-lg color-neutral opacity-60">({formatTime(cooldown)})</Text></Text>
+                    ) : (
+                        <Text className="font-poppinsMedium text-lg color-neutral" onPress={handleCodeResend}>Resend Code</Text>
+                    )}
+                    
                 </View>
                 
             </AuthFormBackground>
