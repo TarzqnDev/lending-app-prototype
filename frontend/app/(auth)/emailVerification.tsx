@@ -59,7 +59,7 @@ export default function EmailVerificationScreen() {
 
             Alert.alert('Success', res.data.message);
             await AsyncStorage.removeItem('pendingEmail');
-            router.push('/(auth)/userInformation');
+            router.push('/(auth)/basicInformationSetup');
 
         } catch (error) {
             const err = error as any;

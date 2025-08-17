@@ -1,4 +1,4 @@
-import AuthButton from "@/components/ui/authbutton";
+import AuthButton from "@/components/ui/authButton";
 import ReusableButton from "@/components/ui/button";
 import FormDivider from "@/components/ui/divider";
 import ReusableInput from "@/components/ui/input";
@@ -94,7 +94,7 @@ export default function LoginScreen() {
                 </View>
 
                 <Text className="text-xl font-robotoRegular text-neutral self-center absolute bottom-16">Don&apos;t have an account? {''}
-                    <Link href="/(auth)/register" asChild>
+                    <Link href="/(auth)/basicInformationSetup" asChild>
                         <Text>Sign up</Text>
                     </Link>
                 </Text>

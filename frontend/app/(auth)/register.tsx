@@ -1,6 +1,6 @@
 import { Link, router } from "expo-router";
 import { Text, View } from "react-native";
-import AuthButton from "@/components/ui/authbutton";
+import AuthButton from "@/components/ui/authButton";
 
 import GoogleSymbol from "@/assets/images/GoogleLogo.svg";
 import FacebookSymbol from "@/assets/images/FacebookLogo.svg";
