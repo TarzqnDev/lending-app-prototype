@@ -94,7 +94,7 @@ export default function LoginScreen() {
                 </View>
 
                 <Text className="text-xl font-robotoRegular text-neutral self-center absolute bottom-16">Don&apos;t have an account? {''}
-                    <Link href="/(auth)/basicInformationSetup" asChild>
+                    <Link href="/(auth)/register" asChild>
                         <Text>Sign up</Text>
                     </Link>
                 </Text>

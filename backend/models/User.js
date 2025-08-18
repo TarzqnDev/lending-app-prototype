@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     isVerified: {
         type: Boolean,
@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     },
     verificationCodeExpires: {
         type: Date
+    },
+    information: {
+        firstName: String,
+        lastName: String,
+        dob: Date,
+        nationality: String,
+        country: String,
+        mobile: String
     }
 }, { timestamps: true });
 

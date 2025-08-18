@@ -29,6 +29,7 @@ export default function EmailRegistrationScreen() {
             });
 
             await AsyncStorage.setItem('pendingEmail', email);
+            await AsyncStorage.setItem('userId', res.data.userId);
 
             console.log(res.data);
             Alert.alert('Success', 'Account created successfully');

@@ -58,8 +58,10 @@ export default function EmailVerificationScreen() {
             });
 
             Alert.alert('Success', res.data.message);
+            
             await AsyncStorage.removeItem('pendingEmail');
-            router.push('/(auth)/basicInformationSetup');
+            await AsyncStorage.setItem('isVerified', 'true');
+            router.push('/(auth)/basicProfileSetup');
 
         } catch (error) {
             const err = error as any;

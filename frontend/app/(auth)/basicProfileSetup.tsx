@@ -1,16 +1,69 @@
 import ReusableButton from "@/components/ui/button";
 import GradientBackground from "@/components/backgrounds/gradientBackground";
 import ReusableInput from "@/components/ui/input";
-import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Alert, Text, View } from "react-native";
 import AuthFormBackground from "@/components/backgrounds/authFormBackground";
 import Dropdown from "@/components/ui/dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import MobileNumberInput from "@/components/ui/mobileNumberInput";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export default function BasicInformationSetupScreen() {
+    const router = useRouter();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
+    const [year, setYear] = useState('');
     const [nationality, setNationality] = useState('');
     const [country, setCountry] = useState('');
+    const [mobile, setMobile] = useState('');
+
+    useEffect(() => {
+        (async () => {
+            const userId = await AsyncStorage.getItem('userId');
+            const isVerified = await AsyncStorage.getItem('isVerified');
+
+            if (!userId) {
+                Alert.alert('Error', 'User not found. Please register first.');
+                router.push('/(auth)/register');
+                return;
+            }
+
+            if (isVerified !== 'true') {
+                Alert.alert('Access Denied', 'You must verify your email before setting up your profile.');
+                router.push('/(auth)/emailVerification');
+                return;
+            }
+
+        })();
+    }, [router]);
+
+    const handleSubmit = async () => {
+        if (!firstName || !lastName || !month || !day || !year || !nationality || !country || !mobile) {
+            Alert.alert('Error', 'Please fill in all fields');
+            return;
+        }
+
+        try {
+            const userId = await AsyncStorage.getItem('userId');
+
+            const res = await axios.post('http://192.168.0.23:5000/api/auth/information', {
+                userId, firstName, lastName, month, day, year, nationality, country, mobile
+            });
+
+            console.log(res.data);
+            Alert.alert('Success', 'Successful profile setup');
+            router.push('/(tabs)/dashboard');
+
+        } catch (error) {
+            const err = error as any;
+            console.error(err.response?.data || err.message);
+            Alert.alert('Error', err.response?.data?.message || 'Something went wrong');
+        }
+    }
 
     return(
         <View className="flex-1">
@@ -32,12 +85,16 @@ export default function BasicInformationSetupScreen() {
                        <View className="flex-1">
                             <ReusableInput 
                                 placeholder="First Name"
+                                value={firstName}
+                                onChangeText={setFirstName}
                             />
                        </View>
 
                         <View className="flex-1">
                             <ReusableInput 
                                 placeholder="Last Name"
+                                value={lastName}
+                                onChangeText={setLastName}
                             />
                        </View>
                     </View>
@@ -56,12 +113,16 @@ export default function BasicInformationSetupScreen() {
                         <View className="flex-[0.2]">
                             <ReusableInput 
                                 placeholder="Day"
+                                value={day}
+                                onChangeText={setDay}
                             />
                        </View>
 
                         <View className="flex-[0.4]">
                             <ReusableInput 
                                 placeholder="Year"
+                                value={year}
+                                onChangeText={setYear}
                             />
                        </View>
                     </View>
@@ -80,49 +141,17 @@ export default function BasicInformationSetupScreen() {
                         onValueChange={setCountry}
                     />
 
-                    <ReusableInput 
+                    <MobileNumberInput 
                         placeholder="Mobile Number"
+                        value={mobile}
+                        onChangeText={setMobile}
                     />
-
-                    {/* <ReusableInput 
-                        placeholder="Street Address"
-                    />
-
-                    <View className="flex-row gap-2">
-
-                       <View className="flex-1">
-                            <ReusableInput 
-                                placeholder="Province"
-                            />
-                       </View>
-
-                        <View className="flex-1">
-                            <ReusableInput 
-                                placeholder="City/Municipality"
-                            />
-                       </View>
-                    </View>
-
-                    <View className="flex-row gap-2">
-
-                       <View className="flex-[0.7]">
-                            <ReusableInput 
-                                placeholder="Barangay"
-                            />
-                       </View>
-
-                        <View className="flex-[0.3]">
-                            <ReusableInput 
-                                placeholder="Zip Code"
-                            />
-                       </View>
-                    </View> */}
 
                 </View>
 
                  <ReusableButton 
-                    title="Continue"
-                    onPress={() => router.push("/(tabs)/dashboard")}
+                    title="Submit"
+                    onPress={handleSubmit}
                 />
 
             </AuthFormBackground>

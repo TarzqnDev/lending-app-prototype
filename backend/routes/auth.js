@@ -8,9 +8,25 @@ const router = express.Router();
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+const nameRegex = /^[\p{L}\s.'-]{2,50}$/u;
+const monthRegex = /^(0?[1-9]|1[0-2])$/;
+const dayRegex = /^(0?[1-9]|[12][0-9]|3[01])$/;
+const yearRegex = /^(19|20)\d{2}$/;
+const mobileRegex = /^9\d{9}$/;
 
 function generateEmailVerification() {
     return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function calculateAge(dob){
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())){
+        age--;
+    }
+
+    return age;
 }
 
 async function sendEmailVerification(to, code) {
@@ -72,7 +88,7 @@ router.post('/register', async (req, res) => {
         await sendEmailVerification(email, verificationCode);
 
         res.status(201).json({ 
-            message: 'User registered successfuly', 
+            message: 'User registered successfully', 
             userId: newUser._id 
         });
 
@@ -176,6 +192,77 @@ router.post('/emailResendCode', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
+}); 
+
+router.post('/information', async (req, res) => {
+    const { userId, firstName, lastName, month, day, year, nationality, country, mobile  } = req.body;
+
+    if (!userId || !firstName || !lastName || !month || !day || !year || !nationality || !country || !mobile) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    if (!nameRegex.test(firstName)) {
+        return res.status(400).json({ message: 'Invalid first name format' });
+    }
+
+    if (!nameRegex.test(lastName)){
+        return res.status(400).json({ message: 'Invalid last name format' });
+    }
+
+    if (!monthRegex.test(month)){
+        return res.status(400).json({ message: 'Invalid month format' });
+    }
+
+    if (!dayRegex.test(day)){
+        return res.status(400).json({ message: 'Invalid day format' });
+    }
+
+    if (!yearRegex.test(year)){
+        return res.status(400).json({ message: 'Invalid year format' });
+    }
+
+    const dob = new Date(`${year}-${month}-${day}`);
+    if (isNaN(dob.getTime())){
+        return res.status(400).json({ message: 'Invalid birthdate format' });
+    }
+
+    const age = calculateAge(dob);
+    if (age < 18) {
+        return res.status(400).json({ message: 'You must be at least 18 years old to register' });
+    }
+
+    if (!mobileRegex.test(mobile)){
+        return res.status(400).json({ message: 'Invalid mobile number format' });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        user.information = {
+            firstName,
+            lastName,
+            dob,
+            nationality,
+            country,
+            mobile
+        };
+
+        await user.save();
+
+        res.status(200).json({
+            message: 'Successful profile setup',
+            userId: user._id,
+            information: user.information
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+
 });
 
 module.exports = router;

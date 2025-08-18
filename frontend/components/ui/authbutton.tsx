@@ -3,7 +3,7 @@ import { SvgProps } from "react-native-svg";
 
 interface AuthButtonProps {
     title: string;
-     Icon: React.FC<SvgProps>;
+    Icon: React.FC<SvgProps>;
     className?: string;
     textClassName?: string;
 }
